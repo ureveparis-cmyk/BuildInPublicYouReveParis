@@ -48,14 +48,14 @@ The through-line: **turn a beauty salon's operations into software, and turn its
 ```mermaid
 flowchart TD
     subgraph Client["Client (mobile-first)"]
-        Funnel["Booking funnel\nreal-time availability"]
+        Funnel["Booking funnel<br/>real-time availability"]
     end
 
     subgraph App["Application — PHP 8 / SQLite (WAL)"]
-        Avail["Availability engine\n(timezone-correct)"]
-        Staff["Staff resolver\n(multi-service assignment)"]
+        Avail["Availability engine<br/>(timezone-correct)"]
+        Staff["Staff resolver<br/>(multi-service assignment)"]
         Agenda["Agenda — single source of truth"]
-        Ingest["Multi-source ingestion\nTreatwell · ClassPass · Planity"]
+        Ingest["Multi-source ingestion<br/>Treatwell · ClassPass · Planity"]
     end
 
     subgraph Pay["Payments"]
@@ -63,7 +63,7 @@ flowchart TD
     end
 
     subgraph Growth["Growth & data"]
-        Track["Hybrid tracking\nbrowser + server-to-server"]
+        Track["Hybrid tracking<br/>browser + server-to-server"]
         Loyalty["Loyalty / referral / reactivation"]
     end
 
@@ -76,7 +76,7 @@ flowchart TD
     Funnel -- "funnel events" --> Track
 
     subgraph CD["Delivery"]
-        Git["git push → webhook"] --> Prod["Production (~30s)\nsecurity gates + health checks"]
+        Git["git push → webhook"] --> Prod["Production (~30s)<br/>security gates + health checks"]
     end
 ```
 

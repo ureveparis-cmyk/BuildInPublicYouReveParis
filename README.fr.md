@@ -50,14 +50,14 @@ IA autonome.
 ```mermaid
 flowchart TD
     subgraph Client["Client (mobile-first)"]
-        Funnel["Tunnel de réservation\ndispo temps réel"]
+        Funnel["Tunnel de réservation<br/>dispo temps réel"]
     end
 
     subgraph App["Application — PHP 8 / SQLite (WAL)"]
-        Avail["Moteur de dispo\n(fuseau-correct)"]
-        Staff["Staff resolver\n(assignation multi-prestations)"]
+        Avail["Moteur de dispo<br/>(fuseau-correct)"]
+        Staff["Staff resolver<br/>(assignation multi-prestations)"]
         Agenda["Agenda — source de vérité"]
-        Ingest["Ingestion multi-sources\nTreatwell · ClassPass · Planity"]
+        Ingest["Ingestion multi-sources<br/>Treatwell · ClassPass · Planity"]
     end
 
     subgraph Pay["Paiement"]
@@ -65,7 +65,7 @@ flowchart TD
     end
 
     subgraph Growth["Growth & data"]
-        Track["Tracking hybride\nnavigateur + server-to-server"]
+        Track["Tracking hybride<br/>navigateur + server-to-server"]
         Loyalty["Fidélité / parrainage / réactivation"]
     end
 
@@ -78,7 +78,7 @@ flowchart TD
     Funnel -- "events tunnel" --> Track
 
     subgraph CD["Livraison"]
-        Git["git push → webhook"] --> Prod["Production (~30s)\nsecurity gates + health checks"]
+        Git["git push → webhook"] --> Prod["Production (~30s)<br/>security gates + health checks"]
     end
 ```
 
