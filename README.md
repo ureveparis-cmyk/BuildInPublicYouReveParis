@@ -45,39 +45,23 @@ The through-line: **turn a beauty salon's operations into software, and turn its
 
 ## Architecture at a glance
 
-```mermaid
-flowchart TD
-    subgraph Client["Client (mobile-first)"]
-        Funnel["Booking funnel<br/>real-time availability"]
-    end
+```text
+   Client (mobile-first)
+       │  booking funnel · real-time availability
+       ▼
+   Application — PHP 8 / SQLite (WAL)
+       •  Availability engine (timezone-correct)
+       •  Staff resolver (multi-service assignment)          ┐
+       •  Multi-source ingestion                             ├──►  Agenda
+          (Treatwell · ClassPass · Planity)                  ┘   single source of truth
+       │  checkout
+       ▼
+   Stripe — Checkout + webhook
+       ├──►  post-purchase webhook  ──►  Hybrid tracking (browser + server-to-server)
+       └──►  Loyalty · referral · reactivation
 
-    subgraph App["Application — PHP 8 / SQLite (WAL)"]
-        Avail["Availability engine<br/>(timezone-correct)"]
-        Staff["Staff resolver<br/>(multi-service assignment)"]
-        Agenda["Agenda — single source of truth"]
-        Ingest["Multi-source ingestion<br/>Treatwell · ClassPass · Planity"]
-    end
-
-    subgraph Pay["Payments"]
-        Stripe["Stripe Checkout + webhook"]
-    end
-
-    subgraph Growth["Growth & data"]
-        Track["Hybrid tracking<br/>browser + server-to-server"]
-        Loyalty["Loyalty / referral / reactivation"]
-    end
-
-    Funnel --> Avail --> Agenda
-    Funnel --> Stripe
-    Staff --> Agenda
-    Ingest --> Agenda
-    Stripe -- "post-purchase webhook" --> Track
-    Stripe --> Loyalty
-    Funnel -- "funnel events" --> Track
-
-    subgraph CD["Delivery"]
-        Git["git push → webhook"] --> Prod["Production (~30s)<br/>security gates + health checks"]
-    end
+   Delivery:  git push  ──►  webhook  ──►  Production (~30s)
+                                           security gates + health checks
 ```
 
 **Design principles that recur throughout the system:**

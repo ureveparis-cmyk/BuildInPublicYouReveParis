@@ -47,39 +47,23 @@ IA autonome.
 
 ## L'architecture en un coup d'œil
 
-```mermaid
-flowchart TD
-    subgraph Client["Client (mobile-first)"]
-        Funnel["Tunnel de réservation<br/>dispo temps réel"]
-    end
+```text
+   Client (mobile-first)
+       │  tunnel de réservation · dispo temps réel
+       ▼
+   Application — PHP 8 / SQLite (WAL)
+       •  Moteur de dispo (fuseau-correct)
+       •  Staff resolver (assignation multi-prestations)     ┐
+       •  Ingestion multi-sources                            ├──►  Agenda
+          (Treatwell · ClassPass · Planity)                  ┘   source de vérité unique
+       │  paiement
+       ▼
+   Stripe — Checkout + webhook
+       ├──►  webhook post-achat  ──►  Tracking hybride (navigateur + server-to-server)
+       └──►  Fidélité · parrainage · réactivation
 
-    subgraph App["Application — PHP 8 / SQLite (WAL)"]
-        Avail["Moteur de dispo<br/>(fuseau-correct)"]
-        Staff["Staff resolver<br/>(assignation multi-prestations)"]
-        Agenda["Agenda — source de vérité"]
-        Ingest["Ingestion multi-sources<br/>Treatwell · ClassPass · Planity"]
-    end
-
-    subgraph Pay["Paiement"]
-        Stripe["Stripe Checkout + webhook"]
-    end
-
-    subgraph Growth["Growth & data"]
-        Track["Tracking hybride<br/>navigateur + server-to-server"]
-        Loyalty["Fidélité / parrainage / réactivation"]
-    end
-
-    Funnel --> Avail --> Agenda
-    Funnel --> Stripe
-    Staff --> Agenda
-    Ingest --> Agenda
-    Stripe -- "webhook post-achat" --> Track
-    Stripe --> Loyalty
-    Funnel -- "events tunnel" --> Track
-
-    subgraph CD["Livraison"]
-        Git["git push → webhook"] --> Prod["Production (~30s)<br/>security gates + health checks"]
-    end
+   Livraison :  git push  ──►  webhook  ──►  Production (~30s)
+                                             security gates + health checks
 ```
 
 **Principes de conception récurrents dans le système :**
