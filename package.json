@@ -1,0 +1,14 @@
+{
+  "name": "youreve-platform-showcase",
+  "version": "1.0.0",
+  "description": "Sanitized public showcase of the You Rêve Paris engineering & growth platform — the JavaScript colorimetry example. No dependencies.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node examples/color-matcher/test.mjs"
+  }
+}

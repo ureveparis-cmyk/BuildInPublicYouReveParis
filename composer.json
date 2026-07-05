@@ -1,0 +1,21 @@
+{
+    "name": "youreve/platform-showcase",
+    "description": "Sanitized public showcase of the You Rêve Paris engineering & growth platform. No secrets, no customer data — purpose-written, runnable examples.",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.1"
+    },
+    "autoload": {
+        "classmap": [
+            "examples/"
+        ]
+    },
+    "scripts": {
+        "test": [
+            "php examples/availability-engine/test.php",
+            "php examples/staff-assignment/test.php",
+            "php examples/booking-ingestion/test.php"
+        ]
+    }
+}
